@@ -1,4 +1,6 @@
-alert("yes esht8lt a5eern");
+import './styles.scss';
+
+// alert("yes esht8lt a5eern");
 
 
 // export {
@@ -6,4 +8,3 @@ alert("yes esht8lt a5eern");
 //     handleSubmit
 //    }
 
-// import './styles/resets.scss'

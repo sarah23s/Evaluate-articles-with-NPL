@@ -4,8 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>WebPack App</title>
+    <title>Evaluate Articles with NPL</title>
+
+     <!-- Fonts -->
+     <link href="https://fonts.googleapis.com/css?family=Oswald:400,600,700|Ranga:400,700&display=swap" rel="stylesheet">
+
 </head>
+
 <body>
+    <div class="holder headline">
+        Evaluate Articles with NPL
+    </div>
+    <div id="app">
+
+        <div id="input">
+            <div class="articleURL">
+                <label for="enteredURL">Enter the URL of the aricle you want to evaluate:</label>
+                <input class="myInput" type="text" id="enteredURL" placeholder="Enter the URL here">
+                <button id="generate" type="submit"> Generate </button>
+            </div>
+        </div>
+
+        <div class="entry">
+            <div class="title">Entry Results</div>
+            <div id="entryHolder">
+                <p class="res_back" id="title">defsgdre</p>
+                <p class="res_back" id="author">dfsgdfd</p>
+                <p class="res_back" id="polarity">dafsgd</p>
+                <p class="res_back" id="polarity_confidence"></p>
+                <p class="res_back" id="subjectivity"></p>
+                <p class="res_back" id="subjectivity_confidence"></p>
+                <img class="res_back" id="article_img">
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
