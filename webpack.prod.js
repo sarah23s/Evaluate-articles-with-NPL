@@ -28,15 +28,14 @@ module.exports = {
             loader: "babel-loader"
             }
         ]
-
-        
     },
 
     plugins: [
         new HtmlWebPackPlugin({
             template: "./src/client/index.html",
             filename: "./index.html",
-        })
+        }),
+        new MiniCssExtractPlugin({ filename: "[name].css" }),
     ],
 
     optimization: {
