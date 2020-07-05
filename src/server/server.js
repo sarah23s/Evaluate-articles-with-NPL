@@ -34,7 +34,7 @@ const textapi = new aylien({
 
 
 // 7- Setup Server
-const port = 3031;
+const port = 3051;
 const server = app.listen(port, listening);
 
 function listening() {
@@ -71,3 +71,12 @@ app.post('/userInput', async (request, response) => {
   });
 });
 
+
+
+app.get('/sentiment_text', async function (req, res) {
+  var input_text = req.text;
+  var input_mode = 'tweet';
+
+  console.log(req);
+  res.send({});
+});

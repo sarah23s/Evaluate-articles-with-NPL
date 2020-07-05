@@ -210,6 +210,40 @@ function toComment(sourceMap) {
 
 /***/ }),
 
+/***/ "./node_modules/node-fetch/browser.js":
+/*!********************************************!*\
+  !*** ./node_modules/node-fetch/browser.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// ref: https://github.com/tc39/proposal-global
+var getGlobal = function () {
+	// the only reliable means to get the global object is
+	// `Function('return this')()`
+	// However, this causes CSP violations in Chrome apps.
+	if (typeof self !== 'undefined') { return self; }
+	if (typeof window !== 'undefined') { return window; }
+	if (typeof global !== 'undefined') { return global; }
+	throw new Error('unable to locate global object');
+}
+
+var global = getGlobal();
+
+module.exports = exports = global.fetch;
+
+// Needed for TypeScript and Webpack.
+exports.default = global.fetch.bind(global);
+
+exports.Headers = global.Headers;
+exports.Request = global.Request;
+exports.Response = global.Response;
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js":
 /*!****************************************************************************!*\
   !*** ./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js ***!
@@ -490,6 +524,37 @@ module.exports = function (list, options) {
 
 /***/ }),
 
+/***/ "./node_modules/webpack/buildin/global.js":
+/*!***********************************!*\
+  !*** (webpack)/buildin/global.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || new Function("return this")();
+} catch (e) {
+	// This works if the window reference is available
+	if (typeof window === "object") g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+
 /***/ "./src/client/app.js":
 /*!***************************!*\
   !*** ./src/client/app.js ***!
@@ -526,7 +591,6 @@ async function performAction() {
 
     await Object(_js_formHandler__WEBPACK_IMPORTED_MODULE_2__["handleSubmit"])(event);
     
-    console.log("to be back");
     generateBtn.textContent = 'Generate';
     generateBtn.disabled = false; 
 }
@@ -540,12 +604,16 @@ document.getElementById('generate').addEventListener('click', performAction);
 /*!**************************************!*\
   !*** ./src/client/js/formHandler.js ***!
   \**************************************/
-/*! exports provided: handleSubmit */
+/*! exports provided: handleSubmit, sentiment_analysis_TEST */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "handleSubmit", function() { return handleSubmit; });
+/* WEBPACK VAR INJECTION */(function(global) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "handleSubmit", function() { return handleSubmit; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sentiment_analysis_TEST", function() { return sentiment_analysis_TEST; });
+// const fetch = require("node-fetch");
+global.fetch = __webpack_require__(/*! node-fetch */ "./node_modules/node-fetch/browser.js");
+
 function handleSubmit(event) {
     event.preventDefault()
 
@@ -556,7 +624,14 @@ function handleSubmit(event) {
     console.log("::: Form Submitted :::");
 }
 
+async function sentiment_analysis_TEST(input_text) {
+    var response = await fetch("http://localhost:3051/sentiment_text");
+    console.log("response: ", response);
+}
 
+
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../node_modules/webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -585,8 +660,6 @@ async function checkForName(formText) {
                 string: formText
             })
         });
-
-        console.log("I AM HERE");
         const data = await postData.json();
         Client.updateUI(data);
     }catch(error){
@@ -611,8 +684,6 @@ async function checkForName(formText) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateUI", function() { return updateUI; });
 function updateUI(data) {
-    console.log(data);
-    console.log(data.subjectivity_confidence);
     document.getElementById('polarity').innerHTML = '<strong>Polarity: </strong>' + data.polarity;
     document.getElementById('polarity_confidence').innerHTML = '<strong>Polarity Confidence: </strong>' + data.polarity_confidence;
     document.getElementById('subjectivity').innerHTML = '<strong>Subjectivity: </strong>' + data.subjectivity;
