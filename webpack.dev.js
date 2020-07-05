@@ -10,12 +10,11 @@ module.exports = {
     devtool: 'source-map',
     entry: './src/client/app.js',
     stats: 'verbose',
+    output: {
+        libraryTarget: 'var',
+        library: 'Client'
+    },
     module: {
-        // output: {
-        //     libraryTarget: 'var',
-        //     library: 'Client'
-        // },
-
         rules: [
             {
             test: '/\.js$/',
@@ -31,7 +30,7 @@ module.exports = {
     
     plugins: [
         new HtmlWebPackPlugin({
-            template: "./src/client/index.html",
+            template: "./src/client/views/index.html",
             filename: "./index.html",
         }),
         new CleanWebpackPlugin({
