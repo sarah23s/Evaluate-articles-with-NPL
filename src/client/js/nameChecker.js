@@ -1,9 +1,10 @@
 async function checkForName(formText) {
-    console.log("formText in nameChecker: " +formText);
+    console.log("formText in nameChecker: " + formText);
     if (typeof(formText) != null || undefined) {
+        try{
         const postData = await fetch('/userInput', {
             method: 'POST',
-            mode: 'cors',
+            credentials: 'same-origin',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -12,10 +13,11 @@ async function checkForName(formText) {
                 string: formText
             })
         });
-        console.log("I AM HERE");
         const data = await postData.json();
-        console.log("data in nameChecker: " +data);
         Client.updateUI(data);
+    }catch(error){
+        console.log("HELLOOOOO THIS IS AN ERROR");
+    }
     }
 }
 

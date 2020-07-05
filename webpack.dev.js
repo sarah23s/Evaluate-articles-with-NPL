@@ -11,6 +11,8 @@ module.exports = {
     entry: './src/client/app.js',
     stats: 'verbose',
     output: {
+        filename: 'bundle.js',
+        path: path.resolve(__dirname, 'public/'),
         libraryTarget: 'var',
         library: 'Client'
     },

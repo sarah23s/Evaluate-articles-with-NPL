@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');  // 4- Dependencies, to parse data
 const cors = require('cors');               // 5- Cors for cross origin allowance
 var aylien = require("aylien_textapi");     // 6- Require the Aylien npm package
 
-//const mockAPIResponse = require('./mockAPI.js')    //TODO
+//const mockAPIResponse = require('./mockAPI.js')    
 
 
 // 2- Start up an instance of app
@@ -26,10 +26,15 @@ app.use(cors());
 app.use(express.static('dist')); //pointing the app to the folder
 
 
+// 6- new Aylien SDK
+const textapi = new aylien({
+  application_id: process.env.API_ID,
+  application_key: process.env.API_KEY,
+});
 
 
 // 7- Setup Server
-const port = 8081;
+const port = 3031;
 const server = app.listen(port, listening);
 
 function listening() {
@@ -46,78 +51,23 @@ app.get('/', function (request, result) {
 
 
 
-// async function gettingData(formText) {
-//   var resData;
-
-//   //new Aylien SDK
-//   const textapi = new aylien({
-//     application_id: process.env.API_ID,
-//     application_key: process.env.API_KEY,
-//   });
-
-//   await textapi.sentiment({
-//     text: formText,
-//     mode: 'tweet' //subjectivity analysis is currently only available in tweet mode
-//   }, function (error, res) {
-//     if (error === null) {
-//       resData =  JSON.stringify(res);
-//       console.log("resData");
-//       console.log(resData);
-//       return resData;
-//     }
-//   });
-
-//   // textapi.extract({
-//   //   url: formText,
-//   // }, function (error, res) {
-//   //   if (error === null) {
-//   //     resData = resData + " " + JSON.stringify(res);
-//   //     console.log("second result");
-//   //     console.log(res);
-//   //   }
-//   // });
-
-//   console.log("theeee resData: " + resData);
-
-// }
-
-
 /* POST METHOD */
 app.post('/userInput', async (request, response) => {
   const formText = request.body.string;
+
   console.log("form text: " + formText);
 
-  // var resData = await gettingData(formText);
-
-  //new Aylien SDK
-  const textapi = new aylien({
-    application_id: process.env.API_ID,
-    application_key: process.env.API_KEY,
-  });
 
   textapi.sentiment({
     text: formText,
     mode: 'tweet' //subjectivity analysis is currently only available in tweet mode
   }, function (error, res) {
     if (error === null) {
+      console.log("adfs " + res.subjectivity_confidence);
       response.send(JSON.stringify(res));
+    } else {
+      console.log("ERRORRR!!! " + error);
     }
   });
-
-  // response.send();
-})
-
-
-
-
-app.get('/test', function (req, res) {
-  
-  let json = {
-    'title': 'test json response',
-    'message': 'this is a message',
-    'time': 'now'
-  }
-  console.log("hii");
-  console.log(json);
-  res.send(JSON.stringify(json));
 });
+

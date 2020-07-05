@@ -16,9 +16,8 @@ async function performAction() {
     generateBtn.textContent = 'Generating...';
     generateBtn.disabled = true; 
 
-    await Client.handleSubmit(event);
+    await handleSubmit(event);
     
-    console.log("to be back");
     generateBtn.textContent = 'Generate';
     generateBtn.disabled = false; 
 }
